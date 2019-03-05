@@ -4,9 +4,9 @@ const
   controllers = require('../controllers'),
   jwt = require('jsonwebtoken');
 
-router.get('/signup', controllers.userController.signup);
+router.get('/signup', controllers.user.signup);
 
-router.get('/login', controllers.userController.login);
+router.get('/login', controllers.user.login);
 
 // puts jwt token on request to show profile
 router.use((request, response, next) => {
@@ -36,8 +36,8 @@ router.use((request, response, next) => {
   }
 });
 
-// show for profile
-router.get('/', controllers.userController.show);
+// show user's profile
+router.get('/', controllers.user.show);
 
 
 module.exports = router;
