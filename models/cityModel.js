@@ -7,4 +7,4 @@ const CitySchema = new Schema({
 });
 
 const Cities = mongoose.model('Cities', CitySchema);
-module.exprorts = Cities;
+module.exports = Cities;
