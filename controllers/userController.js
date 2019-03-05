@@ -25,18 +25,16 @@ module.exports = {
           } else {
             // now create the user in the database
             db.Users.create({
-              // .fullname should match what's in the name="" in the <form><input>
-              userFullName: request.body.fullname,
+              // .username should match what's in the name="" in the <form><input>
               username: request.body.username,
-              userEmail: request.body.email,
+              email: '',
               password: hash,
-              userCity: request.body.city,
             }, (error, newUser) => {
               console.log('here is the new user: ', newUser);
               if (error) {
                 return response.status(500).json({error})
               };
-              // [] putting new user data into a variable to create token with?
+              // putting new user data into a variable to create token with, so don't need all properties that are in user schema
               let user = {
                 email: newUser.email,
                 _id: newUser._id,
@@ -93,7 +91,6 @@ module.exports = {
         if (match) {
           console.log('match: ', match);
           // create a json web token
-          // [] DO WE HAVE TO INCLUDE ANY OTHER PROPERTIES HERE?
           let user = {
             userEmail: users[0].userEmail,
             _id: users[0]._id,
