@@ -15,7 +15,7 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Users',
   }],
-  city: [Cities],
+  city: Cities,
 });
 
 const Posts = mongoose.model('Posts', PostSchema);
