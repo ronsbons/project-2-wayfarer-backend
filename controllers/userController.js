@@ -26,9 +26,8 @@ module.exports = {
             // now create the user in the database
             db.Users.create({
               // .username should match what's in the name="" in the <form><input>
-              username: request.body.username,
-              email: '',
-              password: hash,
+              userEmail: request.body.email,
+              userPassword: hash,
             }, (error, newUser) => {
               console.log('here is the new user: ', newUser);
               if (error) {
@@ -36,7 +35,7 @@ module.exports = {
               };
               // putting new user data into a variable to create token with, so don't need all properties that are in user schema
               let user = {
-                email: newUser.email,
+                email: newUser.userEmail,
                 _id: newUser._id,
               };
 
