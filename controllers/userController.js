@@ -11,6 +11,7 @@ module.exports = {
     db.Users.find({userEmail: request.body.email}).exec().then( (user) => {
       // if a user is found in db with that email
       if (user.length >= 1) {
+        // [] RESPONSE MESSAGE HERE DOESN'T SHOW UP IN CONSOLE
         return response.status(409).json({
           message: 'Email address already exists'
         })
@@ -38,7 +39,7 @@ module.exports = {
                 email: newUser.userEmail,
                 _id: newUser._id,
               };
-
+              console.log(user);
               // create jwt token
               // user is the payload, 'baybridge' is the secret key, and {options}
               jwt.sign(user, 'baybridge', {expiresIn: '1h'}, (error, signedJwt) => {
@@ -65,9 +66,8 @@ module.exports = {
   login: (request, response) => {
     console.log('login');
     console.log('login request:', request.body);
-    // .select('+password') brings password back from the database and includes it in order to match it against the user input from the form
-    // [] DOES PASSWORD HERE HAVE TO BE USERPASSWORD LIKE IN OUR SCHEMA?
-    db.Users.find({userEmail: request.body.email}).select('+password').exec().then( (users) => {
+    // .select('+userPassword') brings password back from the database and includes it in order to match it against the user input from the form
+    db.Users.find({userEmail: request.body.email}).select('+userPassword').exec().then( (users) => {
       console.log('users: ', users);
       // if no users are found,
       if (users.length < 1) {
@@ -81,7 +81,6 @@ module.exports = {
       console.log('login password hash: ', users[0].userPassword);
       // bcrypt hashes the req.body.password in order to compare it to the hashed password in the database
       bcrypt.compare(request.body.password, users[0].userPassword, (error, match) => {
-        console.log('match: ', match);
         if (error) {
           console.log('login bcrypt compare: ', error);
           return response.status(500).json({error});
@@ -89,11 +88,16 @@ module.exports = {
         // if user inputted password matches hashed password in database,
         if (match) {
           console.log('match: ', match);
+          // response.json(users[0]);
           // create a json web token
           let user = {
+            userFullName: users[0].userFullName,
             userEmail: users[0].userEmail,
+            userCity: users[0].userCity,
+            userJoinDate: users[0].userJoinDate,
             _id: users[0]._id,
           };
+          console.log(user);
           jwt.sign(user, 'baybridge', {expiresIn: '1h'}, (error, signedJwt) => {
             if (error) {
               console.log('login jwt sign error: ', error);
@@ -101,7 +105,7 @@ module.exports = {
             response.status(200).json({
               message: 'Login auth successful',
               user,
-              signedJwt
+              signedJwt,
             });
           });
         // if user inputted password does not match hashed password in database,
