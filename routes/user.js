@@ -29,6 +29,7 @@ router.use((request, response, next) => {
     // [] ERROR: VERIFIED IS NOT DEFINED
     console.log('request.token: ', request.token);
     let verified = jwt.verify(request.token, 'baybridge');
+    console.log(verified);
     console.log('here is the verified: ', verified._id);
     // pulls out user id from token
     request.userId = verified._id;
