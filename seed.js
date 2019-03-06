@@ -12,10 +12,10 @@ const myUsers = [
   }, //'2019-03-05'
 
   {
-    userFullName: "sds",
-    username: "dsda",
-    userEmail: "dfnsivs@gmail.com",
-    userPassword: "dsfsd",
+    userFullName: "John",
+    username: "johncd",
+    userEmail: "johncs@gmail.com",
+    userPassword: "fsfs",
     userCity: "de",
     userPhoto: "im",
     userJoinDate: Date()
