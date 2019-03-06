@@ -9,9 +9,13 @@ const db = require("./models");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(cors())
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
 
@@ -34,7 +38,11 @@ app.get("/api", (req, res) => {
       //Posts
       { method: "GET", path: "/api/posts", description: "Get all posts" },
       { method: "GET", path: "/api/posts/:id", description: "Get 1 post" },
-      { method: "GET", path: "/api/posts/:postName", description: "Get 1 post"},
+      {
+        method: "GET",
+        path: "/api/posts/:postName",
+        description: "Get 1 post"
+      },
       { method: "POST", path: "/api/posts", description: "Create a new post" },
       { method: "PUT", path: "/api/posts/:id", description: "Update a post" },
       {
@@ -48,7 +56,11 @@ app.get("/api", (req, res) => {
       { method: "GET", path: "/api/cities/:id", description: "Get 1 city" },
       { method: "POST", path: "/api/cities", description: "Create a new city" },
       { method: "PUT", path: "/api/cities/:id", description: "Update a city" },
-      { method: "DELETE", path: "/api/cities/:id", description: "Delete a city"}
+      {
+        method: "DELETE",
+        path: "/api/cities/:id",
+        description: "Delete a city"
+      }
     ]
   });
 });
@@ -111,9 +123,11 @@ app.delete("/api/users/:id", (req, res) => {
 
 // CRUD FOR POSTS
 app.get("/api/posts", (req, res) => {
-  db.Posts.find({}, (error, posts) => {
-    res.json(posts);
-  });
+  db.Posts.find({})
+    .populate("user")
+    .exec((error, posts) => {
+      res.json(posts);
+    });
 });
 
 app.get("/api/posts/:id", (req, res) => {
