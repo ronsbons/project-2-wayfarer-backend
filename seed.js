@@ -1,16 +1,5 @@
 const db = require("./models");
 
-const myCities = [
-  {
-    cityName: "Colorado",
-    cityPhoto: "photo.png"
-  },
-  {
-    cityName: "Wisconsin",
-    cityPhoto: "image.png"
-  }
-];
-
 const myUsers = [
   {
     userFullName: "Mary",
@@ -30,6 +19,17 @@ const myUsers = [
     userCity: "de",
     userPhoto: "im",
     userJoinDate: Date()
+  }
+];
+
+const myCities = [
+  {
+    cityName: "Colorado",
+    cityPhoto: "photo.png"
+  },
+  {
+    cityName: "Wisconsin",
+    cityPhoto: "image.png"
   }
 ];
 
