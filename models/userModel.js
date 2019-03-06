@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   userFullName: String,
-  username: String,
   userEmail: {
     type: String,
     required: true,
@@ -20,6 +19,13 @@ const UserSchema = new Schema({
   userJoinDate: {
     type: Date,
     default: Date.now,
+  },
+});
+
+UserSchema.set('toJSON', {
+  transform: function (doc, ret, opt) {
+    delete ret['userPassword']
+    return ret
   },
 });
 

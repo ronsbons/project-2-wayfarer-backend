@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Cities = require('./cityModel.js');
 
 const PostSchema = new Schema({
   // there's a "mongoose validator" package that could help us limit length of post title
@@ -15,7 +16,8 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Users',
   }],
-  city: [Cities],
+  // [] THIS IS BROKEN
+  // city: Cities,
 });
 
 const Posts = mongoose.model('Posts', PostSchema);

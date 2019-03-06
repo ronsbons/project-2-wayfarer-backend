@@ -1,9 +1,9 @@
-const express = require("express"),
-cors = require("cors");
-app = express(),
-bodyParser = require("body-parser");
-jwt = require("jsonwebtoken");
-userRoutes = require("./routes/user.js");
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
+const userRoutes = require("./routes/user.js");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -19,7 +19,7 @@ app.get("/api", (req, res) => {
     documentationUrl: "", //Change with repo's README file
     baseUrl: "", //Include heroku base URL
     endpoints: [
-      //Users
+      // Users
       // { method: "GET", path: "/api", description: "Describes all available endpoints"},
       // { method: "GET", path: "/api/users", adescription: "Get all users" },
       // { method: "GET", path: "/api/users/:id", adescription: "Get 1 user" },
