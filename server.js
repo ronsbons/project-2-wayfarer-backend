@@ -7,6 +7,7 @@ const userRoutes = require("./routes/user.js");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 app.use(express.static("public"));
 
 app.listen(process.env.PORT || 3001, () =>
