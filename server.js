@@ -4,9 +4,16 @@ const app = express();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const userRoutes = require("./routes/user.js");
+const db = require("./models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(express.static("public"));
 
@@ -27,11 +34,7 @@ app.get("/api", (req, res) => {
       //Posts
       { method: "GET", path: "/api/posts", description: "Get all posts" },
       { method: "GET", path: "/api/posts/:id", description: "Get 1 post" },
-      {
-        method: "GET",
-        path: "/api/posts/:postName",
-        description: "Get 1 post"
-      },
+      { method: "GET", path: "/api/posts/:postName", description: "Get 1 post"},
       { method: "POST", path: "/api/posts", description: "Create a new post" },
       { method: "PUT", path: "/api/posts/:id", description: "Update a post" },
       {
@@ -45,11 +48,7 @@ app.get("/api", (req, res) => {
       { method: "GET", path: "/api/cities/:id", description: "Get 1 city" },
       { method: "POST", path: "/api/cities", description: "Create a new city" },
       { method: "PUT", path: "/api/cities/:id", description: "Update a city" },
-      {
-        method: "DELETE",
-        path: "/api/cities/:id",
-        description: "Delete a city"
-      }
+      { method: "DELETE", path: "/api/cities/:id", description: "Delete a city"}
     ]
   });
 });
@@ -107,6 +106,123 @@ app.delete("/api/users/:id", (req, res) => {
       throw err;
     }
     res.json(deletedUser);
+  });
+});
+
+// CRUD FOR POSTS
+app.get("/api/posts", (req, res) => {
+  db.Posts.find({}, (error, posts) => {
+    res.json(posts);
+  });
+});
+
+app.get("/api/posts/:id", (req, res) => {
+  db.Posts.find({ _id: req.params.id }, (error, posts) => {
+    res.json(posts);
+  });
+});
+
+app.get("/api/posts/:id/user", (req, res) => {
+  res.json(posts);
+});
+
+app.post("/api/posts", (req, res) => {
+  var newPost = new db.Posts({
+    postTitle: req.body.postTitle,
+    postContent: req.body.postContent,
+    postDate: req.body.postDate,
+    user: req.body.user,
+    city: {
+      cityName: req.body.cityName,
+      cityPhoto: req.body.cityPhoto
+    }
+  });
+  newPost.save((error, post) => {
+    if (error) {
+      res.end(error.message);
+    } else {
+      res.json(post);
+    }
+  });
+});
+
+app.put("/api/posts/:id", (req, res) => {
+  console.log("update post", req.params);
+  console.log(`the body is${req.body}`);
+  const postId = req.params.id;
+  db.Posts.findOneAndUpdate(
+    { _id: postId },
+    req.body,
+    { new: true },
+    (err, updatePosts) => {
+      if (err) {
+        throw err;
+      }
+      res.json(updatePosts);
+    }
+  );
+});
+
+app.delete("/api/posts/:id", (req, res) => {
+  const postId = req.params.id;
+  console.log("delete post", postId);
+  db.Posts.findOneAndDelete({ _id: postId }, (err, deletedPost) => {
+    if (err) {
+      throw err;
+    }
+    res.json(deletedPost);
+  });
+});
+
+//CRUD FOR CITIES
+
+app.get("/api/cities", (req, res) => {
+  db.Cities.find({}, (error, users) => {
+    res.json(cities);
+  });
+});
+
+app.get("/api/cities/:id", (req, res) => {
+  db.Cities.find({ _id: req.params.id }, (error, users) => {
+    res.json(cities);
+  });
+});
+
+app.post("/api/cities", (req, res) => {
+  var newCity = new db.Cities({
+    cityName: req.body.cityName,
+    cityPhoto: req.body.cityPhoto
+  });
+  newCity.save((error, user) => {
+    res.json(user);
+  });
+});
+
+app.put("/api/cities/:id", (req, res) => {
+  console.log("update cities", req.params);
+  console.log(`the body is${req.body}`);
+  const cityId = req.params.id;
+  db.Cities.findOneAndUpdate(
+    { _id: cityId },
+    req.body,
+    { new: true },
+    (err, updateUser) => {
+      if (err) {
+        throw err;
+      }
+      res.json(updateCity);
+    }
+  );
+});
+
+app.delete("/api/cities/:id", (req, res) => {
+  const cityId = req.params.id;
+  console.log("delete city", cityId);
+  db.Cities.findOneAndDelete({ _id: cityId }, (err, deletedCity) => {
+    if (err) {
+      throw err;
+    }
+    res.json(deletedCity);
   });
 });
 
