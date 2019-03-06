@@ -125,7 +125,6 @@ module.exports = {
 
   show: (request, response) => {
     console.log('show');
-    console.log(request);
     // request.userId from user route
     console.log(request.userId);
     // if there's a value to request.userId,
