@@ -9,6 +9,7 @@ router.post('/signup', controllers.user.signup);
 router.post('/login', controllers.user.login);
 
 // puts jwt token on request to show profile
+// [] THIS ONLY RUNS WHEN THE PAGE RELOADS AND LOGS ME OUT, BUT I STILL HAVE A TOKEN IN LOCALSTORAGE
 router.use((request, response, next) => {
   console.log('activating jwt middleware');
   // grabs 'authorization' part of the request header
@@ -21,11 +22,12 @@ router.use((request, response, next) => {
     const bearer = bearerHeader.split(' ');
     // stores token
     const bearerToken = bearer[1];
-    console.log(bearerToken);
+    console.log('bearerHeader split into bearerToken:', bearerToken);
     // stores token in request
     request.token = bearerToken;
     // verifies token against secret key
     // if secret key is inside the signature part of the token, it will open the payload have access to request data
+    // [] ERROR: VERIFIED IS NOT DEFINED
     let verified = jwt.verify(request.token, 'baybridge');
     console.log('here is the verified: ', verfied);
     // pulls out user id from token
