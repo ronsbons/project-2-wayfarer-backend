@@ -4,9 +4,9 @@ const
   controllers = require('../controllers'),
   jwt = require('jsonwebtoken');
 
-router.get('/signup', controllers.userController.signup);
+router.post('/signup', controllers.user.signup);
 
-router.get('/login', controllers.userController.login);
+router.post('/login', controllers.user.login);
 
 // puts jwt token on request to show profile
 router.use((request, response, next) => {
@@ -21,14 +21,16 @@ router.use((request, response, next) => {
     const bearer = bearerHeader.split(' ');
     // stores token
     const bearerToken = bearer[1];
+    console.log(bearerToken);
     // stores token in request
     request.token = bearerToken;
     // verifies token against secret key
     // if secret key is inside the signature part of the token, it will open the payload have access to request data
-    let verified = jwt.verify(request.token, SECRET_KEY);
+    let verified = jwt.verify(request.token, 'baybridge');
     console.log('here is the verified: ', verfied);
     // pulls out user id from token
     request.userId = verified._id;
+    console.log(request.userId);
     next();
   }
   else {
@@ -36,8 +38,8 @@ router.use((request, response, next) => {
   }
 });
 
-// show for profile
-router.get('/', controllers.userController.show);
+// show user's profile
+router.get('/', controllers.user.show);
 
 
 module.exports = router;
