@@ -26,7 +26,6 @@ router.use((request, response, next) => {
     request.token = bearerToken;
     // verifies token against secret key
     // if secret key is inside the signature part of the token, it will open the payload have access to request data
-    // [] ERROR: VERIFIED IS NOT DEFINED
     console.log('request.token: ', request.token);
     let verified = jwt.verify(request.token, 'baybridge');
     console.log(verified);

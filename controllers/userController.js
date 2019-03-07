@@ -6,7 +6,6 @@ const
 module.exports = {
   signup: (request, response) => {
     console.log('sign up request:', request.body);
-    console.log('sign up');
     // check to see if email is already in db
     db.Users.find({userEmail: request.body.email}).exec().then( (user) => {
       // if a user is found in db with that email
@@ -26,7 +25,7 @@ module.exports = {
           } else {
             // now create the user in the database
             db.Users.create({
-              // .username should match what's in the name="" in the <form><input>
+              // .userEmail should match what's in the name="" in the <form><input>
               userEmail: request.body.email,
               userPassword: hash,
             }, (error, newUser) => {
