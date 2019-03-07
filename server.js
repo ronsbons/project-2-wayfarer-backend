@@ -8,14 +8,14 @@ const db = require("./models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
-app.use(express.static("public"));
+app.use('/user', userRoutes);
+
+app.listen(process.env.PORT || 3001, () =>
+  console.log("Listening on port 3001 :)")
+);
 
 app.get("/api", (req, res) => {
   res.json({
@@ -226,6 +226,6 @@ app.delete("/api/cities/:id", (req, res) => {
   });
 });
 
-app.listen(process.env.PORT || 3001, () =>
-  console.log("Listening on port 3001 :)")
+app.listen(process.env.PORT || 3002, () =>
+  console.log("Listening on port 3002 :)")
 );

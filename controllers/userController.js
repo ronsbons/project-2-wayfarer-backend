@@ -125,6 +125,7 @@ module.exports = {
 
   show: (request, response) => {
     console.log('show');
+    console.log(request);
     // request.userId from user route
     console.log(request.userId);
     // if there's a value to request.userId,
@@ -137,6 +138,7 @@ module.exports = {
         };
         // return the database result
         response.json(foundUser);
+        console.log(foundUser);
       });
     } else {
       response.json('No user Id provided');
