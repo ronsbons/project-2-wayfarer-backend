@@ -24,12 +24,28 @@ const myUsers = [
 
 const myCities = [
   {
-    cityName: "Colorado",
-    cityPhoto: "colorado.png"
+    cityName: "London",
+    cityPhoto: "london.png"
   },
   {
-    cityName: "Wisconsin",
-    cityPhoto: "wisconsin.png"
+    cityName: "Sydney",
+    cityPhoto: "sydney.png"
+  },
+  {
+    cityName: "San Francisco",
+    cityPhoto: "san_francisco.png"
+  },
+  {
+    cityName: "Seattle",
+    cityPhoto: "seattle.png"
+  },
+  {
+    cityName: "Tokyo",
+    cityPhoto: "tokyo.png"
+  },
+  {
+    cityName: "Copenhagen",
+    cityPhoto: "copenhagen.png"
   }
 ];
 
