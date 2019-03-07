@@ -9,11 +9,12 @@ router.post('/signup', controllers.user.signup);
 router.post('/login', controllers.user.login);
 
 // puts jwt token on request to show profile
+// [] THIS ONLY RUNS WHEN THE PAGE REFRESHES/RELOADS
 router.use((request, response, next) => {
   console.log('activating jwt middleware');
   // grabs 'authorization' part of the request header
   const bearerHeader = request.headers['authorization'];
-  console.log('token check', bearerHeader);
+  console.log('token check:', bearerHeader);
 
   // if there is a value in bearerHeader, then...
   if(typeof bearerHeader !== 'undefined') {
@@ -21,13 +22,15 @@ router.use((request, response, next) => {
     const bearer = bearerHeader.split(' ');
     // stores token
     const bearerToken = bearer[1];
-    console.log(bearerToken);
     // stores token in request
     request.token = bearerToken;
     // verifies token against secret key
     // if secret key is inside the signature part of the token, it will open the payload have access to request data
+    // [] ERROR: VERIFIED IS NOT DEFINED
+    console.log('request.token: ', request.token);
     let verified = jwt.verify(request.token, 'baybridge');
-    console.log('here is the verified: ', verfied);
+    console.log(verified);
+    console.log('here is the verified: ', verified._id);
     // pulls out user id from token
     request.userId = verified._id;
     console.log(request.userId);

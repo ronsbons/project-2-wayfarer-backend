@@ -22,7 +22,9 @@ const UserSchema = new Schema({
   },
 });
 
+// backup method to delete password from the database result
 UserSchema.set('toJSON', {
+  // document, return, option
   transform: function (doc, ret, opt) {
     delete ret['userPassword']
     return ret

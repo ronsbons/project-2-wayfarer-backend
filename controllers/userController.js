@@ -137,6 +137,7 @@ module.exports = {
         };
         // return the database result
         response.json(foundUser);
+        console.log(foundUser);
       });
     } else {
       response.json('No user Id provided');
