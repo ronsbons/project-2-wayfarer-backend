@@ -1,5 +1,41 @@
 const db = require("./models");
 
+<<<<<<< HEAD
+=======
+const myUsers = [
+  {
+    userFullName: "Mary",
+    username: "maryb",
+    userEmail: "dfnsivs@gmail.com",
+    userPassword: "something",
+    userCity: "napa",
+    userPhoto: "pho",
+    userJoinDate: Date()
+  }, //'2019-03-05'
+
+  {
+    userFullName: "John",
+    username: "johncd",
+    userEmail: "johncs@gmail.com",
+    userPassword: "fsfs",
+    userCity: "de",
+    userPhoto: "im",
+    userJoinDate: Date()
+  }
+];
+
+const myCities = [
+  {
+    cityName: "Colorado",
+    cityPhoto: "photo.png"
+  },
+  {
+    cityName: "Wisconsin",
+    cityPhoto: "image.png"
+  }
+];
+
+>>>>>>> 6070ad132591cff295b4222cf96b1af37f38d8d6
 const myPosts = [
   {
     postTitle: "Colorado Trip Post",
