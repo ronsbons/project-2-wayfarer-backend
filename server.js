@@ -13,9 +13,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 
-app.listen(process.env.PORT || 3001, () =>
-  console.log("Listening on port 3001 :)")
-);
+
 
 app.get("/api", (req, res) => {
   res.json({
@@ -226,6 +224,6 @@ app.delete("/api/cities/:id", (req, res) => {
   });
 });
 
-app.listen(process.env.PORT || 3002, () =>
-  console.log("Listening on port 3002 :)")
+app.listen(process.env.PORT || 3001, () =>
+  console.log("Listening on port 3001 :)")
 );
