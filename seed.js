@@ -1,16 +1,7 @@
 const db = require("./models");
 
-const myCities = [
-  {
-    cityName: "Colorado",
-    cityPhoto: "photo.png"
-  },
-  {
-    cityName: "Wisconsin",
-    cityPhoto: "image.png"
-  }
-];
-
+<<<<<<< HEAD
+=======
 const myUsers = [
   {
     userFullName: "Mary",
@@ -23,70 +14,59 @@ const myUsers = [
   }, //'2019-03-05'
 
   {
-    userFullName: "sds",
-    username: "dsda",
-    userEmail: "dfnsivs@gmail.com",
-    userPassword: "dsfsd",
+    userFullName: "John",
+    username: "johncd",
+    userEmail: "johncs@gmail.com",
+    userPassword: "fsfs",
     userCity: "de",
     userPhoto: "im",
     userJoinDate: Date()
   }
 ];
 
-const myPosts = [{
-    postTitle: "ColPost",
-    postContent: "bahahahaha",
+const myCities = [
+  {
+    cityName: "Colorado",
+    cityPhoto: "photo.png"
+  },
+  {
+    cityName: "Wisconsin",
+    cityPhoto: "image.png"
+  }
+];
+
+>>>>>>> 6070ad132591cff295b4222cf96b1af37f38d8d6
+const myPosts = [
+  {
+    postTitle: "Colorado Trip Post",
+    postContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
     postDate: "2018-3-12",
-    user: '5c7e84d9b237be0aec72b8ac',
+    user: "5c804261bec0244d32b761c6",
     city: {
-        cityName: "Colorado",
-        cityPhoto: "photo.png"
-        }
-    },
-    {
-        postTitle: "WisPost",
-        postContent: "dfnjdfn",
-        postDate: "2018-3-12",
-        user: '5c7e84d9b237be0aec72b8ac',
-        city: {
-          cityName: "Wisconsin",
-          cityPhoto: "image.png"
-        }
+      cityName: "Colorado",
+      cityPhoto: "colorado.png"
     }
-]
+  },
+  {
+    postTitle: "Wisconsin Trip Post",
+    postContent: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+    postDate: "2018-3-12",
+    user: "5c804261bec0244d32b761c6",
+    city: {
+      cityName: "Wisconsin",
+      cityPhoto: "wisconsin.png"
+    }
+  }
+];
 
-db.Cities.deleteMany({}, (err, cities) => {
-  console.log("removed cities");
+db.Posts.deleteMany({}, (err, cities) => {
+  console.log("removed posts");
 
-  db.Cities.create(myCities, (err, cities) => {
+  db.Posts.create(myPosts, (err, cities) => {
     if (err) {
       console.log(err);
     }
-    console.log("created all cities");
-    console.log(`created ${myCities.length} cities`);
-    db.Users.deleteMany({}, (err, users) => {
-      console.log("removed users");
-
-      db.Users.create(myUsers, (err, users) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log("created all users");
-        console.log(`created ${myUsers.length} users`);
-
-        db.Posts.deleteMany({}, (err, cities) => {
-            console.log('removed posts');
-    
-            db.Posts.create(myPosts, (err, cities) => {
-                if(err) { console.log(err); }
-                console.log('created all posts');
-                console.log(`created ${myPosts.length} posts`);
-            });
-        });
-      });
-    });
-
-
-
+    console.log("created all posts");
+    console.log(`created ${myPosts.length} posts`);
   });
 });
