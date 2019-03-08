@@ -131,18 +131,37 @@ app.get("/api/posts", (req, res) => {
     });
 });
 
-app.get("/api/posts/:id", (req, res) => {
-  db.Posts.find({ _id: req.params.id })
-    .populate("user")
-    .populate("city")
-    .exec((error, posts) => {
-      res.json(posts);
-    });
-});
+// [] CONFLICTS WITH FINDING POSTS BY CITY
+// app.get("/api/posts/:id", (req, res) => {
+//   db.Posts.find({ _id: req.params.id })
+//     .populate("user")
+//     .populate("city")
+//     .exec((error, posts) => {
+//       res.json(posts);
+//     });
+// });
 
 app.get("/api/posts/:id/user", (req, res) => {
   res.json(posts);
 });
+
+// get city's posts
+app.get("/api/posts/:id", (req, res) => {
+  db.Cities.findOne({ _id: req.params.id }).exec( (err, foundCity) => {
+    if (err) {
+      console.log(`can't find city error: `, err);
+    }
+    console.log(`Found City ${foundCity}`);
+    db.Posts.find({ city: foundCity._id }, (err, foundPosts) => {
+      if (err) {
+        console.log(`can't find posts of city: `, err);
+      };
+      console.log(foundPosts);
+      res.json(foundPosts);
+    });
+  });
+});
+
 
 app.post("/api/posts", (req, res) => {
   db.Users.findOne({ _id: req.body.user }).exec((err, foundUser) => {
