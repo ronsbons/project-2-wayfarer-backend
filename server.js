@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/user', userRoutes);
+app.use("/user", userRoutes);
 
 app.use(express.static("public"));
 
@@ -132,9 +132,12 @@ app.get("/api/posts", (req, res) => {
 });
 
 app.get("/api/posts/:id", (req, res) => {
-  db.Posts.find({ _id: req.params.id }, (error, posts) => {
-    res.json(posts);
-  });
+  db.Posts.find({ _id: req.params.id })
+    .populate("user")
+    .populate("city")
+    .exec((error, posts) => {
+      res.json(posts);
+    });
 });
 
 app.get("/api/posts/:id/user", (req, res) => {
@@ -142,75 +145,105 @@ app.get("/api/posts/:id/user", (req, res) => {
 });
 
 app.post("/api/posts", (req, res) => {
-  var newPost = new db.Posts({
-    postTitle: req.body.postTitle,
-    postContent: req.body.postContent,
-    postDate: req.body.postDate,
-    user: req.body.user,
-    city: {
-      cityName: req.body.cityName,
-      cityPhoto: req.body.cityPhoto
-    }
-  });
-  newPost.save((error, post) => {
-    if (error) {
-      res.end(error.message);
-    } else {
-      res.json(post);
-    }
+  db.Users.findOne({ _id: req.body.user }).exec((err, foundUser) => {
+    db.Cities.findOne({ _id: req.body.city }).exec((err, foundCity) => {
+      var newPost = new db.Posts({
+        postTitle: req.body.postTitle,
+        postContent: req.body.postContent,
+        postDate: Date(), //req.body.postDate,
+        user: foundUser,
+        city: foundCity
+      });
+      newPost.save((error, post) => {
+        if (error) {
+          res.end(error.message);
+        } else {
+          res.json(post);
+        }
+      });
+    });
   });
 });
-// Testing 
+// Testing
 app.post("/api/userposts/:id", (req, res) => {
-  db.Users.findOne({_id:req.params.id})
-    .exec((err,foundUser)=>{
-      if(err){return console.log(`can't find user error:`, err)}
-      console.log(`Found User ${foundUser}`);
-      if(foundUser){
-        var newPost = new db.Posts({
-          postTitle: req.body.postTitle,
-          postContent: req.body.postContent,
-          postDate: req.body.postDate,
-          user: foundUser._id,
-          city: {
-            cityName: req.body.cityName,
-            cityPhoto: req.body.cityPhoto
-          }
-        });
+  db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
+    if (err) {
+      return console.log(`can't find user error:`, err);
+    }
+    console.log(`Found User ${foundUser}`);
+    if (foundUser) {
+      var newPost = new db.Posts({
+        postTitle: req.body.postTitle,
+        postContent: req.body.postContent,
+        postDate: req.body.postDate,
+        user: foundUser._id,
+        city: {
+          cityName: req.body.cityName,
+          cityPhoto: req.body.cityPhoto
+        }
+      });
       console.log(newPost);
       newPost.save((error, post) => {
         if (error) {
-          console.log(`can't save new post error: ${error}`)
+          console.log(`can't save new post error: ${error}`);
           res.send(error.message);
         } else {
           res.json(post);
         }
       });
-    } else{
-      console.log("Whoops")
-      res.send("You Done Messed Up A-Aron")
+    } else {
+      console.log("Whoops");
+      res.send("You Done Messed Up A-Aron");
     }
-    })
-
+  });
 });
 
-app.get("/api/userposts/:id", (req, res) => {
-  db.Users.findOne({_id: req.params.id})
-  .exec( (err,foundUser) => {
-    if(err){
-      console.log(`can't find user error:`, err)
+//
+app.post("/api/userposts/:id", (req, res) => {
+  db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
+    if (err) {
+      return console.log(`can't find user error:`, err);
     }
     console.log(`Found User ${foundUser}`);
-    db.Posts.find({user: foundUser._id}, (err,foundPosts) => {
-      if(err){
+    if (foundUser) {
+      var newPost = new db.Posts({
+        postTitle: req.body.postTitle,
+        postContent: req.body.postContent,
+        postDate: req.body.postDate,
+        user: foundUser._id,
+        city: foundCity._id
+      });
+      console.log(newPost);
+      newPost.save((error, post) => {
+        if (error) {
+          console.log(`can't save new post error: ${error}`);
+          res.send(error.message);
+        } else {
+          res.json(post);
+        }
+      });
+    } else {
+      console.log("Whoops");
+      res.send("You Done Messed Up A-Aron");
+    }
+  });
+});
+//
+app.get("/api/userposts/:id", (req, res) => {
+  db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
+    if (err) {
+      console.log(`can't find user error:`, err);
+    }
+    console.log(`Found User ${foundUser}`);
+    db.Posts.find({ user: foundUser._id }, (err, foundPosts) => {
+      if (err) {
         console.log(`can't find posts of user ${err}`);
       }
       res.json(foundPosts);
       console.log(foundPosts);
     });
-  })
+  });
 });
-
 
 app.put("/api/posts/:id", (req, res) => {
   console.log("update post", req.params);
@@ -253,6 +286,36 @@ app.get("/api/cities/:id", (req, res) => {
     res.json(foundCity);
   });
 });
+
+///////
+
+app.post("/api/cities/:id/post", (req, res) => {
+  let newPost = new db.Post({
+    postTitle: req.body.postTitle,
+    postContent: req.body.postContent,
+    postDate: req.body.postDate,
+    city: req.params.id,
+    user: req.body.id
+  });
+  newPost.save((error, rating) => {
+    res.json(post);
+  });
+});
+
+app.post("/api/posts/city/:id", (req, res) => {
+  let newPost = new db.Post({
+    postTitle: req.body.postTitle,
+    postContent: req.body.postContent,
+    postDate: req.body.postDate,
+    city: req.params.id,
+    user: req.body.id
+  });
+  newPost.save((error, rating) => {
+    res.json(post);
+  });
+});
+
+///////
 
 app.post("/api/cities", (req, res) => {
   var newCity = new db.Cities({
