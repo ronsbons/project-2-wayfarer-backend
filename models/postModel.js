@@ -13,9 +13,13 @@ const PostSchema = new Schema({
     ref: "Users"
   },
   city: {
-    cityName: String,
-    cityPhoto: String
-  }
+    type: Schema.Types.ObjectId,
+    ref: 'Cities'
+  },
+  // city: {
+  //   cityName: String,
+  //   cityPhoto: String
+  // }
 });
 
 const Posts = mongoose.model("Posts", PostSchema);
