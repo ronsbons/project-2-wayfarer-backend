@@ -8,11 +8,7 @@ const db = require("./models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(cors());
-
-app.use('/user', userRoutes);
-
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -21,6 +17,8 @@ app.use(function(req, res, next) {
   );
   next();
 });
+
+app.use('/user', userRoutes);
 
 app.use(express.static("public"));
 
@@ -162,6 +160,57 @@ app.post("/api/posts", (req, res) => {
     }
   });
 });
+// Testing 
+app.post("/api/userposts/:id", (req, res) => {
+  db.Users.findOne({_id:req.params.id})
+    .exec((err,foundUser)=>{
+      if(err){return console.log(`can't find user error:`, err)}
+      console.log(`Found User ${foundUser}`);
+      if(foundUser){
+        var newPost = new db.Posts({
+          postTitle: req.body.postTitle,
+          postContent: req.body.postContent,
+          postDate: req.body.postDate,
+          user: foundUser._id,
+          city: {
+            cityName: req.body.cityName,
+            cityPhoto: req.body.cityPhoto
+          }
+        });
+      console.log(newPost);
+      newPost.save((error, post) => {
+        if (error) {
+          console.log(`can't save new post error: ${error}`)
+          res.send(error.message);
+        } else {
+          res.json(post);
+        }
+      });
+    } else{
+      console.log("Whoops")
+      res.send("You Done Messed Up A-Aron")
+    }
+    })
+
+});
+
+app.get("/api/userposts/:id", (req, res) => {
+  db.Users.findOne({_id: req.params.id})
+  .exec( (err,foundUser) => {
+    if(err){
+      console.log(`can't find user error:`, err)
+    }
+    console.log(`Found User ${foundUser}`);
+    db.Posts.find({user: foundUser._id}, (err,foundPosts) => {
+      if(err){
+        console.log(`can't find posts of user ${err}`);
+      }
+      res.json(foundPosts);
+      console.log(foundPosts);
+    });
+  })
+});
+
 
 app.put("/api/posts/:id", (req, res) => {
   console.log("update post", req.params);
@@ -194,14 +243,14 @@ app.delete("/api/posts/:id", (req, res) => {
 //CRUD FOR CITIES
 
 app.get("/api/cities", (req, res) => {
-  db.Cities.find({}, (error, users) => {
-    res.json(cities);
+  db.Cities.find({}, (error, foundCities) => {
+    res.json(foundCities);
   });
 });
 
 app.get("/api/cities/:id", (req, res) => {
-  db.Cities.find({ _id: req.params.id }, (error, users) => {
-    res.json(cities);
+  db.Cities.find({ _id: req.params.id }, (error, foundCity) => {
+    res.json(foundCity);
   });
 });
 
@@ -210,8 +259,8 @@ app.post("/api/cities", (req, res) => {
     cityName: req.body.cityName,
     cityPhoto: req.body.cityPhoto
   });
-  newCity.save((error, user) => {
-    res.json(user);
+  newCity.save((error, newCity) => {
+    res.json(newCity);
   });
 });
 
@@ -223,11 +272,11 @@ app.put("/api/cities/:id", (req, res) => {
     { _id: cityId },
     req.body,
     { new: true },
-    (err, updateUser) => {
+    (err, updatedCity) => {
       if (err) {
         throw err;
       }
-      res.json(updateCity);
+      res.json(updatedCity);
     }
   );
 });
