@@ -165,7 +165,13 @@ app.get("/api/posts/:id", (req, res) => {
 
 app.post("/api/posts", (req, res) => {
   db.Users.findOne({ _id: req.body.user }).exec((err, foundUser) => {
+    if (err) {
+      console.log(`can't find user when creating post: `, err);
+    }
     db.Cities.findOne({ _id: req.body.city }).exec((err, foundCity) => {
+      if (err) {
+        console.log(`can't find city when creating post: `, err);
+      }
       var newPost = new db.Posts({
         postTitle: req.body.postTitle,
         postContent: req.body.postContent,
@@ -173,16 +179,20 @@ app.post("/api/posts", (req, res) => {
         user: foundUser,
         city: foundCity
       });
-      newPost.save((error, post) => {
+      console.log(`created post ${newPost}`);
+      newPost.save((error, savedPost) => {
         if (error) {
-          res.end(error.message);
+          console.log(`save new post error: ${error}`);
+          res.send(error.message);
         } else {
           res.json(post);
+          console.log(`this is the saved new post: ${savedPost}`);
         }
       });
     });
   });
 });
+
 // Testing
 app.post("/api/userposts/:id", (req, res) => {
   db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
