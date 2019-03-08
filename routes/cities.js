@@ -3,6 +3,6 @@ const
   router = express.Router(),
   controllers = require('../controllers');
 
-router.get('/', controllers.citiesController.FUNCTION_NAME);
+router.get('/', controllers.city.show);
 
 module.exports = router;

@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const userRoutes = require("./routes/user.js");
+const cityRoutes = require("./routes/cities.js");
 const db = require("./models");
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,6 +20,7 @@ app.use(function(req, res, next) {
 });
 
 app.use("/user", userRoutes);
+app.use("/api/cities", cityRoutes);
 
 app.use(express.static("public"));
 
@@ -185,7 +187,7 @@ app.post("/api/posts", (req, res) => {
           console.log(`save new post error: ${error}`);
           res.send(error.message);
         } else {
-          res.json(post);
+          res.json(savedPost);
           console.log(`this is the saved new post: ${savedPost}`);
         }
       });
