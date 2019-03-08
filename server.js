@@ -180,6 +180,7 @@ app.post("/api/userposts/:id", (req, res) => {
             cityPhoto: req.body.cityPhoto
           }
         });
+      console.log(newPost);
       newPost.save((error, post) => {
         if (error) {
           res.end(error.message);
