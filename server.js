@@ -231,7 +231,7 @@ app.put("/api/posts/:id", (req, res) => {
   );
 });
 
-app.delete("/api/posts/:id", (req, res) => {
+app.delete("/api/userposts/:id", (req, res) => {
   const postId = req.params.id;
   console.log("delete post", postId);
   db.Posts.findOneAndDelete({ _id: postId }, (err, deletedPost) => {
