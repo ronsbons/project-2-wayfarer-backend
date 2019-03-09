@@ -5,21 +5,15 @@ const myPosts = [
     postTitle: "San Francisco Trip Post",
     postContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
     postDate: "2018-3-12",
-    user: "5c804261bec0244d32b761c6",
-    city: {
-      cityName: "San Francisco",
-      cityPhoto: "san_francisco.png"
-    }
+    user: "5c83138bcfc5fe0017bde217",
+    city: "5c83138bcfc5fe0017bde213"
   },
   {
     postTitle: "London Trip Post",
     postContent: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     postDate: "2018-3-20",
-    user: "5c804261bec0244d32b761c6",
-    city: {
-      cityName: "London",
-      cityPhoto: "london.png"
-    }
+    user: "5c83138bcfc5fe0017bde218",
+    city: "5c83138bcfc5fe0017bde211"
   }
 ];
 
