@@ -2,6 +2,8 @@ const db = require ('../models');
 
 module.exports = {
   show: (req, res) => {
-    res.send("city route works")
+    db.Cities.find({}, (error, foundCities) => {
+      res.json(foundCities);
+    });
   }
 };

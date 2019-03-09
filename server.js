@@ -306,11 +306,11 @@ app.delete("/api/posts/:id", (req, res) => {
 
 //CRUD FOR CITIES
 
-app.get("/api/cities", (req, res) => {
-  db.Cities.find({}, (error, foundCities) => {
-    res.json(foundCities);
-  });
-});
+// app.get("/api/cities", (req, res) => {
+//   db.Cities.find({}, (error, foundCities) => {
+//     res.json(foundCities);
+//   });
+// });
 
 app.get("/api/cities/:id", (req, res) => {
   db.Cities.find({ _id: req.params.id }, (error, foundCity) => {
