@@ -306,6 +306,10 @@ app.delete("/api/posts/:id", (req, res) => {
 
 //CRUD FOR CITIES
 
+<<<<<<< HEAD
+=======
+// [] MOVED TO CITIESCONTROLLER.JS
+>>>>>>> fd41c4ec54ab93983d3ed42f2ce0fc744789b0c9
 // app.get("/api/cities", (req, res) => {
 //   db.Cities.find({}, (error, foundCities) => {
 //     res.json(foundCities);
@@ -314,7 +318,11 @@ app.delete("/api/posts/:id", (req, res) => {
 
 app.get("/api/cities/:id", (req, res) => {
   db.Cities.find({ _id: req.params.id }, (error, foundCity) => {
+    if (error) {
+      console.log(`can't find city error: ${error}`);
+    }
     res.json(foundCity);
+    console.log(`find one city: ${foundCity}`);
   });
 });
 
