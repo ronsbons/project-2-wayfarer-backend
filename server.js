@@ -306,15 +306,20 @@ app.delete("/api/posts/:id", (req, res) => {
 
 //CRUD FOR CITIES
 
-app.get("/api/cities", (req, res) => {
-  db.Cities.find({}, (error, foundCities) => {
-    res.json(foundCities);
-  });
-});
+// [] MOVED TO CITIESCONTROLLER.JS
+// app.get("/api/cities", (req, res) => {
+//   db.Cities.find({}, (error, foundCities) => {
+//     res.json(foundCities);
+//   });
+// });
 
 app.get("/api/cities/:id", (req, res) => {
   db.Cities.find({ _id: req.params.id }, (error, foundCity) => {
+    if (error) {
+      console.log(`can't find city error: ${error}`);
+    }
     res.json(foundCity);
+    console.log(`find one city: ${foundCity}`);
   });
 });
 

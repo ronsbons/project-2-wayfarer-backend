@@ -2,6 +2,12 @@ const db = require ('../models');
 
 module.exports = {
   show: (req, res) => {
-    res.send("city route works")
-  }
+    db.Cities.find({}, (error, foundCities) => {
+      if (error) {
+        console.log(`can't find cities: ${error}`);
+      }
+      res.json(foundCities);
+      console.log(foundCities);
+    });
+  },
 };
