@@ -17,10 +17,10 @@ const myPosts = [
   }
 ];
 
-db.Posts.deleteMany({}, (err, cities) => {
+db.Posts.deleteMany({}, (err, posts) => {
   console.log("removed posts");
 
-  db.Posts.create(myPosts, (err, cities) => {
+  db.Posts.create(myPosts, (err, posts) => {
     if (err) {
       console.log(err);
     }

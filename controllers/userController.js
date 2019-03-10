@@ -143,4 +143,23 @@ module.exports = {
       response.json('No user Id provided');
     };
   },
+
+  // UNTESTED
+  update: (request, response) => {
+    console.log("update user", request.params);
+    console.log("the body is", request.body);
+    const userId = request.params.id;
+    db.Users.findOneAndUpdate(
+      { _id: userId },
+      request.body,
+      { new: true },
+      (err, updateUser) => {
+        if (err) {
+          console.log(`can't find and update user error: ${err}`);
+        };
+        response.json(updateUser);
+        console.log(updateUser);
+      }
+    );
+  },
 };

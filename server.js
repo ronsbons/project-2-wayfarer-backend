@@ -75,26 +75,28 @@ app.get("/api/users", (req, res) => {
   });
 });
 
-app.get("/api/users/:id", (req, res) => {
-  db.Users.find({ _id: req.params.id }, (error, users) => {
-    res.json(users);
-  });
-});
+// [] ALREADY REPRESENTED BY THE 'SHOW' METHOD IN USERCONTROLLER (RL)
+// app.get("/api/users/:id", (req, res) => {
+//   db.Users.find({ _id: req.params.id }, (error, users) => {
+//     res.json(users);
+//   });
+// });
 
-app.post("/api/users", (req, res) => {
-  var newUser = new db.Users({
-    userFullName: req.body.userFullName,
-    username: req.body.username,
-    userEmail: req.body.userEmail,
-    userPassword: req.body.userPassword,
-    userCity: req.body.userCity,
-    userPhoto: req.body.userPhoto,
-    userJoinDate: Date()
-  });
-  newUser.save((error, user) => {
-    res.json(user);
-  });
-});
+// [] ALREADY REPRESENTED IN 'SIGNUP' METHOD IN USERCONTROLLER (RL)
+// app.post("/api/users", (req, res) => {
+//   var newUser = new db.Users({
+//     userFullName: req.body.userFullName,
+//     username: req.body.username,
+//     userEmail: req.body.userEmail,
+//     userPassword: req.body.userPassword,
+//     userCity: req.body.userCity,
+//     userPhoto: req.body.userPhoto,
+//     userJoinDate: Date()
+//   });
+//   newUser.save((error, user) => {
+//     res.json(user);
+//   });
+// });
 
 app.put("/api/users/:id", (req, res) => {
   console.log("update user", req.params);

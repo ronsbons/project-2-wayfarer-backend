@@ -44,5 +44,9 @@ router.use((request, response, next) => {
 // show user's profile
 router.get('/', controllers.user.show);
 
+// update user's profile
+// [] IF USE THIS ROUTE, WILL HAVE TO UPDATE FRONT-END AXIOS CALL TO 'HEROKU.COM/USER/:ID', NOT 'HEROKU.COM/API/USERS/:ID'
+router.put('/:id', controllers.user.update);
+
 
 module.exports = router;
