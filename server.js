@@ -157,12 +157,12 @@ app.get("/api/posts", (req, res) => {
 // });
 
 // REPLACED BY JON'S ROUTE OF API/USERPOSTS?
-app.get("/api/posts/:id/user", (req, res) => {
-  res.json(posts);
-});
+// app.get("/api/posts/:id/user", (req, res) => {
+//   res.json(posts);
+// });
 
 // get city's posts
-// [] TESTING MOVING TO POSTCONTROLLER
+// [] SUCCESSFULLY MOVED TO CONTROLLER
 // app.get("/api/posts/:id", (req, res) => {
 //   db.Cities.findOne({ _id: req.params.id }).exec( (err, foundCity) => {
 //     if (err) {
@@ -179,36 +179,37 @@ app.get("/api/posts/:id/user", (req, res) => {
 //   });
 // });
 
-
-app.post("/api/posts", (req, res) => {
-  db.Users.findOne({ _id: req.body.user }).exec((err, foundUser) => {
-    if (err) {
-      console.log(`can't find user when creating post: `, err);
-    }
-    db.Cities.findOne({ _id: req.body.city }).exec((err, foundCity) => {
-      if (err) {
-        console.log(`can't find city when creating post: `, err);
-      }
-      var newPost = new db.Posts({
-        postTitle: req.body.postTitle,
-        postContent: req.body.postContent,
-        postDate: Date(), //req.body.postDate,
-        user: foundUser,
-        city: foundCity
-      });
-      console.log(`created post ${newPost}`);
-      newPost.save((error, savedPost) => {
-        if (error) {
-          console.log(`save new post error: ${error}`);
-          res.send(error.message);
-        } else {
-          res.json(savedPost);
-          console.log(`this is the saved new post: ${savedPost}`);
-        }
-      });
-    });
-  });
-});
+// create a new post and incorporatign user ID and city ID
+// [] SUCCESSFULLY MOVED THIS ROUTE TO CONTROLLER
+// app.post("/api/posts", (req, res) => {
+//   db.Users.findOne({ _id: req.body.user }).exec((err, foundUser) => {
+//     if (err) {
+//       console.log(`can't find user when creating post: `, err);
+//     }
+//     db.Cities.findOne({ _id: req.body.city }).exec((err, foundCity) => {
+//       if (err) {
+//         console.log(`can't find city when creating post: `, err);
+//       }
+//       var newPost = new db.Posts({
+//         postTitle: req.body.postTitle,
+//         postContent: req.body.postContent,
+//         postDate: Date(), //req.body.postDate,
+//         user: foundUser,
+//         city: foundCity
+//       });
+//       console.log(`created post ${newPost}`);
+//       newPost.save((error, savedPost) => {
+//         if (error) {
+//           console.log(`save new post error: ${error}`);
+//           res.send(error.message);
+//         } else {
+//           res.json(savedPost);
+//           console.log(`this is the saved new post: ${savedPost}`);
+//         }
+//       });
+//     });
+//   });
+// });
 
 // Testing
 app.post("/api/userposts/:id", (req, res) => {
