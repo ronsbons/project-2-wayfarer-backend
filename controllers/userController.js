@@ -11,7 +11,6 @@ module.exports = {
     db.Users.find({userEmail: request.body.email}).exec().then( (user) => {
       // if a user is found in db with that email
       if (user.length >= 1) {
-        // [] RESPONSE MESSAGE HERE DOESN'T SHOW UP IN CONSOLE
         return response.status(409).json({
           message: 'Email address already exists'
         })

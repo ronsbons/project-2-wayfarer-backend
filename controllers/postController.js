@@ -18,10 +18,12 @@ module.exports = {
   },
 
   create: (request, response) => {
+    // find user by id to tie to created post
     db.Users.findOne({ _id: request.body.user }).exec((err, foundUser) => {
       if (err) {
         console.log(`can't find user when creating post: `, err);
       }
+      // then find city by id to tie to created post
       db.Cities.findOne({ _id: request.body.city }).exec((err, foundCity) => {
         if (err) {
           console.log(`can't find city when creating post: `, err);

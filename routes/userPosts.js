@@ -3,7 +3,7 @@ const
   router = express.Router(),
   controllers = require('../controllers');
 
-// route to show posts by city
+// show posts by user
 router.get('/:id', controllers.userPosts.show);
 
 module.exports = router;

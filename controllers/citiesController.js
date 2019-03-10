@@ -2,7 +2,6 @@ const db = require ('../models');
 
 module.exports = {
   // shows all cities
-  // THIS WORKS
   show: (req, res) => {
     db.Cities.find({}, (error, foundCities) => {
       if (error) {
@@ -24,6 +23,7 @@ module.exports = {
     });
   },
 
+  // admin routes
   create: (request, response) => {
     var newCity = new db.Cities({
       cityName: request.body.cityName,

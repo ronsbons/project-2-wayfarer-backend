@@ -31,7 +31,7 @@ app.use(express.static('public'));
 // CRUD FOR USERS
 // [] ONLY FOR ADMIN, THIS WILL CONFLICT WITH "SHOW" METHOD IN USERCONTROLLER
 // get all users
-app.get("/api/users", (req, res) => {
+app.get('/api/users', (req, res) => {
   db.Users.find({}, (error, users) => {
     res.json(users);
   });
@@ -41,17 +41,17 @@ app.get("/api/users", (req, res) => {
 // CRUD FOR POSTS
 // get all posts, regardless of by city or by user
 // ONLY FOR ADMIN
-app.get("/api/posts", (req, res) => {
+app.get('/api/posts', (req, res) => {
   db.Posts.find({})
-    .populate("user")
-    // .populate("city")
+    .populate('user')
+    // .populate('city')
     .exec((error, posts) => {
       res.json(posts);
     });
 });
 
-app.put("/api/posts/:id", (req, res) => {
-  console.log("update post", req.params);
+app.put('/api/posts/:id', (req, res) => {
+  console.log('update post', req.params);
   console.log(`the body is${req.body}`);
   const postId = req.params.id;
   db.Posts.findOneAndUpdate(
@@ -67,9 +67,9 @@ app.put("/api/posts/:id", (req, res) => {
   );
 });
 
-app.delete("/api/posts/:id", (req, res) => {
+app.delete('/api/posts/:id', (req, res) => {
   const postId = req.params.id;
-  console.log("delete post", postId);
+  console.log('delete post', postId);
   db.Posts.findOneAndDelete({ _id: postId }, (err, deletedPost) => {
     if (err) {
       throw err;
@@ -80,5 +80,5 @@ app.delete("/api/posts/:id", (req, res) => {
 
 
 app.listen(process.env.PORT || 3001, () =>
-  console.log("Listening on port 3001 :)")
+  console.log('Listening on port 3001 :)')
 );

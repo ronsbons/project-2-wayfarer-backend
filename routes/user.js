@@ -8,12 +8,11 @@ router.post('/signup', controllers.user.signup);
 
 router.post('/login', controllers.user.login);
 
-// [] I THINK THE UPDATE AND DELETE ROUTES ARE MEANT TO GO AFTER THE ROUTER.USE, BUT IT ERRORS THERE, B/C THE REQUEST DOESN'T HAVE A BEARER HEADER
 // update user's profile
 router.put('/:id', controllers.user.update);
 
+// admin route
 // delete user
-// [] ONLY FOR ADMIN AT THIS TIME
 router.delete('/:id', controllers.user.delete);
 
 // puts jwt token on request to show profile
