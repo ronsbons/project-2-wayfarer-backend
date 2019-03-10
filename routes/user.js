@@ -8,8 +8,14 @@ router.post('/signup', controllers.user.signup);
 
 router.post('/login', controllers.user.login);
 
+// update user's profile
+router.put('/:id', controllers.user.update);
+
+// admin route
+// delete user
+router.delete('/:id', controllers.user.delete);
+
 // puts jwt token on request to show profile
-// [] THIS ONLY RUNS WHEN THE PAGE REFRESHES/RELOADS
 router.use((request, response, next) => {
   console.log('activating jwt middleware');
   // grabs 'authorization' part of the request header
@@ -26,7 +32,6 @@ router.use((request, response, next) => {
     request.token = bearerToken;
     // verifies token against secret key
     // if secret key is inside the signature part of the token, it will open the payload have access to request data
-    // [] ERROR: VERIFIED IS NOT DEFINED
     console.log('request.token: ', request.token);
     let verified = jwt.verify(request.token, 'baybridge');
     console.log(verified);
@@ -43,6 +48,5 @@ router.use((request, response, next) => {
 
 // show user's profile
 router.get('/', controllers.user.show);
-
 
 module.exports = router;

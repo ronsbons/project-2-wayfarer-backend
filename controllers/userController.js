@@ -11,7 +11,6 @@ module.exports = {
     db.Users.find({userEmail: request.body.email}).exec().then( (user) => {
       // if a user is found in db with that email
       if (user.length >= 1) {
-        // [] RESPONSE MESSAGE HERE DOESN'T SHOW UP IN CONSOLE
         return response.status(409).json({
           message: 'Email address already exists'
         })
@@ -143,4 +142,34 @@ module.exports = {
       response.json('No user Id provided');
     };
   },
+
+  update: (request, response) => {
+    console.log("update user", request.params);
+    console.log("the body is", request.body);
+    const userId = request.params.id;
+    db.Users.findOneAndUpdate(
+      { _id: userId },
+      request.body,
+      { new: true },
+      (err, updateUser) => {
+        if (err) {
+          console.log(`can't find and update user error: ${err}`);
+        };
+        response.json(updateUser);
+        console.log(updateUser);
+      }
+    );
+  },
+
+  delete: (request, response) => {
+    const userId = request.params.id;
+    console.log("delete user", userId);
+    db.Users.findOneAndDelete({ _id: userId }, (err, deletedUser) => {
+      if (err) {
+        console.log(`can't delete user: ${err}`);
+      }
+      response.json(deletedUser);
+      console.log(`deleted user: ${deletedUser}`);
+    });
+  }
 };
