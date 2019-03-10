@@ -197,36 +197,35 @@ app.post("/api/posts", (req, res) => {
 
 // Testing
 app.post("/api/userposts/:id", (req, res) => {
-  db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
-    if (err) {
-      return console.log(`can't find user error:`, err);
-    }
-    console.log(`Found User ${foundUser}`);
-    if (foundUser) {
-      var newPost = new db.Posts({
-        postTitle: req.body.postTitle,
-        postContent: req.body.postContent,
-        postDate: req.body.postDate,
-        user: foundUser._id,
-        city: {
-          cityName: req.body.cityName,
-          cityPhoto: req.body.cityPhoto
-        }
-      });
+  db.Users.findOne({_id:req.params.id})
+    .exec((err,foundUser)=>{
+      if(err){return console.log(`can't find user error:`, err)}
+      console.log(`Found User ${foundUser}`);
+      if(foundUser){
+        var newPost = new db.Posts({
+          postTitle: req.body.postTitle,
+          postContent: req.body.postContent,
+          postDate: req.body.postDate,
+          user: foundUser._id,
+          city: {
+            cityName: req.body.cityName,
+            cityPhoto: req.body.cityPhoto
+          }
+        });
       console.log(newPost);
       newPost.save((error, post) => {
         if (error) {
-          console.log(`can't save new post error: ${error}`);
-          res.send(error.message);
+          res.end(error.message);
         } else {
           res.json(post);
         }
       });
-    } else {
-      console.log("Whoops");
-      res.send("You Done Messed Up A-Aron");
+    } else{
+      console.log("Whoops")
+      res.send("You Done Messed Up A-Aron")
     }
-  });
+    })
+
 });
 
 //
@@ -293,7 +292,7 @@ app.put("/api/posts/:id", (req, res) => {
   );
 });
 
-app.delete("/api/posts/:id", (req, res) => {
+app.delete("/api/userposts/:id", (req, res) => {
   const postId = req.params.id;
   console.log("delete post", postId);
   db.Posts.findOneAndDelete({ _id: postId }, (err, deletedPost) => {
