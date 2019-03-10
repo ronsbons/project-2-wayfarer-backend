@@ -52,7 +52,7 @@ app.get('/api/posts', (req, res) => {
 
 app.put('/api/posts/:id', (req, res) => {
   console.log('update post', req.params);
-  console.log(`the body is${req.body}`);
+  console.log(`the body is`, req.body);
   const postId = req.params.id;
   db.Posts.findOneAndUpdate(
     { _id: postId },
