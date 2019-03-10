@@ -1,21 +1,22 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 const app = express();
-const bodyParser = require("body-parser");
-const jwt = require("jsonwebtoken");
-const userRoutes = require("./routes/user.js");
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const userRoutes = require('./routes/user.js');
 const postRoutes = require('./routes/posts.js');
-const cityRoutes = require("./routes/cities.js");
-const db = require("./models");
+const cityRoutes = require('./routes/cities.js');
+const userPostRoutes = require('./routes/userPosts.js');
+const db = require('./models');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Origin', '*');
   res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
   );
   next();
 });
@@ -23,14 +24,15 @@ app.use(function(req, res, next) {
 app.use('/user', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/cities', cityRoutes);
+app.use('/userposts', userPostRoutes);
 
-app.use(express.static("public"));
+app.use(express.static('public'));
 
-app.get("/api", (req, res) => {
+app.get('/api', (req, res) => {
   res.json({
-    message: "Welcome to Wayfare's API! Here's what you need to know:",
-    documentationUrl: "", //Change with repo's README file
-    baseUrl: "", //Include heroku base URL
+    message: `Welcome to Wayfare's API! Here's what you need to know:`,
+    documentationUrl: '', //Change with repo's README file
+    baseUrl: '', //Include heroku base URL
     endpoints: [
       // Users
       // { method: "GET", path: "/api", description: "Describes all available endpoints"},
@@ -242,52 +244,54 @@ app.post("/api/userposts/:id", (req, res) => {
   });
 });
 
-//
-app.post("/api/userposts/:id", (req, res) => {
-  db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
-    if (err) {
-      return console.log(`can't find user error:`, err);
-    }
-    console.log(`Found User ${foundUser}`);
-    if (foundUser) {
-      var newPost = new db.Posts({
-        postTitle: req.body.postTitle,
-        postContent: req.body.postContent,
-        postDate: req.body.postDate,
-        user: foundUser._id,
-        city: foundCity._id
-      });
-      console.log(newPost);
-      newPost.save((error, post) => {
-        if (error) {
-          console.log(`can't save new post error: ${error}`);
-          res.send(error.message);
-        } else {
-          res.json(post);
-        }
-      });
-    } else {
-      console.log("Whoops");
-      res.send("You Done Messed Up A-Aron");
-    }
-  });
-});
-//
-app.get("/api/userposts/:id", (req, res) => {
-  db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
-    if (err) {
-      console.log(`can't find user error:`, err);
-    }
-    console.log(`Found User ${foundUser}`);
-    db.Posts.find({ user: foundUser._id }, (err, foundPosts) => {
-      if (err) {
-        console.log(`can't find posts of user ${err}`);
-      }
-      res.json(foundPosts);
-      console.log(foundPosts);
-    });
-  });
-});
+// DUPLICATE OF ABOVE
+// app.post("/api/userposts/:id", (req, res) => {
+//   db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
+//     if (err) {
+//       return console.log(`can't find user error:`, err);
+//     }
+//     console.log(`Found User ${foundUser}`);
+//     if (foundUser) {
+//       var newPost = new db.Posts({
+//         postTitle: req.body.postTitle,
+//         postContent: req.body.postContent,
+//         postDate: req.body.postDate,
+//         user: foundUser._id,
+//         city: foundCity._id
+//       });
+//       console.log(newPost);
+//       newPost.save((error, post) => {
+//         if (error) {
+//           console.log(`can't save new post error: ${error}`);
+//           res.send(error.message);
+//         } else {
+//           res.json(post);
+//         }
+//       });
+//     } else {
+//       console.log("Whoops");
+//       res.send("You Done Messed Up A-Aron");
+//     }
+//   });
+// });
+
+// get user's posts
+// [] TESTING CONTROLLERS
+// app.get("/api/userposts/:id", (req, res) => {
+//   db.Users.findOne({ _id: req.params.id }).exec((err, foundUser) => {
+//     if (err) {
+//       console.log(`can't find user error:`, err);
+//     }
+//     console.log(`Found User ${foundUser}`);
+//     db.Posts.find({ user: foundUser._id }, (err, foundPosts) => {
+//       if (err) {
+//         console.log(`can't find posts of user ${err}`);
+//       }
+//       res.json(foundPosts);
+//       console.log(foundPosts);
+//     });
+//   });
+// });
 
 app.put("/api/posts/:id", (req, res) => {
   console.log("update post", req.params);
