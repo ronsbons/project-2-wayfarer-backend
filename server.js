@@ -20,10 +20,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use("/user", userRoutes);
+app.use('/user', userRoutes);
 app.use('/posts', postRoutes);
-// [] HAVEN'T TESTED CITYROUTES YET
-app.use("/api/cities", cityRoutes);
+app.use('/cities', cityRoutes);
 
 app.use(express.static("public"));
 
@@ -320,6 +319,7 @@ app.delete("/api/posts/:id", (req, res) => {
 
 //CRUD FOR CITIES
 
+// finds all cities
 // [] MOVED TO CITIESCONTROLLER.JS
 // app.get("/api/cities", (req, res) => {
 //   db.Cities.find({}, (error, foundCities) => {
@@ -327,15 +327,16 @@ app.delete("/api/posts/:id", (req, res) => {
 //   });
 // });
 
-app.get("/api/cities/:id", (req, res) => {
-  db.Cities.find({ _id: req.params.id }, (error, foundCity) => {
-    if (error) {
-      console.log(`can't find city error: ${error}`);
-    }
-    res.json(foundCity);
-    console.log(`find one city: ${foundCity}`);
-  });
-});
+// finds one city by id
+// app.get("/api/cities/:id", (req, res) => {
+//   db.Cities.find({ _id: req.params.id }, (error, foundCity) => {
+//     if (error) {
+//       console.log(`can't find city error: ${error}`);
+//     }
+//     res.json(foundCity);
+//     console.log(`find one city: ${foundCity}`);
+//   });
+// });
 
 ///////
 
