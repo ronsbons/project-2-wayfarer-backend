@@ -8,13 +8,15 @@ router.post('/signup', controllers.user.signup);
 
 router.post('/login', controllers.user.login);
 
+// [] I THINK THE UPDATE AND DELETE ROUTES ARE MEANT TO GO AFTER THE ROUTER.USE, BUT IT ERRORS THERE, B/C THE REQUEST DOESN'T HAVE A BEARER HEADER
 // update user's profile
-// [] IF USE THIS ROUTE, WILL HAVE TO UPDATE FRONT-END AXIOS CALL TO 'HEROKU.COM/USER/:ID', NOT 'HEROKU.COM/API/USERS/:ID'
-// [] I THINK THIS IS MEANT TO GO AFTER THE ROUTER.USE, BUT IT ERRORS THERE, B/C THE REQUEST DOESN'T HAVE A BEARER HEADER
 router.put('/:id', controllers.user.update);
 
+// delete user
+// [] ONLY FOR ADMIN AT THIS TIME
+router.delete('/:id', controllers.user.delete);
+
 // puts jwt token on request to show profile
-// [] THIS ONLY RUNS WHEN THE PAGE REFRESHES/RELOADS
 router.use((request, response, next) => {
   console.log('activating jwt middleware');
   // grabs 'authorization' part of the request header
@@ -31,7 +33,6 @@ router.use((request, response, next) => {
     request.token = bearerToken;
     // verifies token against secret key
     // if secret key is inside the signature part of the token, it will open the payload have access to request data
-    // [] ERROR: VERIFIED IS NOT DEFINED
     console.log('request.token: ', request.token);
     let verified = jwt.verify(request.token, 'baybridge');
     console.log(verified);

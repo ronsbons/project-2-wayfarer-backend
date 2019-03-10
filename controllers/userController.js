@@ -144,7 +144,6 @@ module.exports = {
     };
   },
 
-  // UNTESTED
   update: (request, response) => {
     console.log("update user", request.params);
     console.log("the body is", request.body);
@@ -162,4 +161,16 @@ module.exports = {
       }
     );
   },
+
+  delete: (request, response) => {
+    const userId = request.params.id;
+    console.log("delete user", userId);
+    db.Users.findOneAndDelete({ _id: userId }, (err, deletedUser) => {
+      if (err) {
+        console.log(`can't delete user: ${err}`);
+      }
+      response.json(deletedUser);
+      console.log(`deleted user: ${deletedUser}`);
+    });
+  }
 };
