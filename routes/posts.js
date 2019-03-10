@@ -3,6 +3,7 @@ const
   router = express.Router(),
   controllers = require('../controllers');
 
-router.get('/', controllers.citiesController.FUNCTION_NAME);
+// route to show posts by city
+router.get('/:id', controllers.post.show);
 
 module.exports = router;

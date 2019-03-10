@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const userRoutes = require("./routes/user.js");
+const postRoutes = require('./routes/posts.js');
 const cityRoutes = require("./routes/cities.js");
 const db = require("./models");
 
@@ -20,6 +21,8 @@ app.use(function(req, res, next) {
 });
 
 app.use("/user", userRoutes);
+app.use('/posts', postRoutes);
+// [] HAVEN'T TESTED CITYROUTES YET
 app.use("/api/cities", cityRoutes);
 
 app.use(express.static("public"));
@@ -69,6 +72,8 @@ app.get("/api", (req, res) => {
 });
 
 // CRUD FOR USERS
+// NOT NEEDED
+// get all users
 app.get("/api/users", (req, res) => {
   db.Users.find({}, (error, users) => {
     res.json(users);
@@ -98,23 +103,26 @@ app.get("/api/users", (req, res) => {
 //   });
 // });
 
-app.put("/api/users/:id", (req, res) => {
-  console.log("update user", req.params);
-  console.log("the body is", req.body);
-  const userId = req.params.id;
-  db.Users.findOneAndUpdate(
-    { _id: userId },
-    req.body,
-    { new: true },
-    (err, updateUser) => {
-      if (err) {
-        throw err;
-      }
-      res.json(updateUser);
-    }
-  );
-});
+// [] MOVED TO USERCONTROLLER SUCCESSFULLY
+// app.put("/api/users/:id", (req, res) => {
+//   console.log("update user", req.params);
+//   console.log("the body is", req.body);
+//   const userId = req.params.id;
+//   db.Users.findOneAndUpdate(
+//     { _id: userId },
+//     req.body,
+//     { new: true },
+//     (err, updateUser) => {
+//       if (err) {
+//         throw err;
+//       }
+//       res.json(updateUser);
+//     }
+//   );
+// });
 
+// delete a user
+// NOT NEEDED
 app.delete("/api/users/:id", (req, res) => {
   const userId = req.params.id;
   console.log("delete user", userId);
@@ -127,6 +135,8 @@ app.delete("/api/users/:id", (req, res) => {
 });
 
 // CRUD FOR POSTS
+// get all posts, regardless of by city or by user
+// NOT NEEDED
 app.get("/api/posts", (req, res) => {
   db.Posts.find({})
     .populate("user")
@@ -145,26 +155,28 @@ app.get("/api/posts", (req, res) => {
 //     });
 // });
 
+// REPLACED BY JON'S ROUTE OF API/USERPOSTS?
 app.get("/api/posts/:id/user", (req, res) => {
   res.json(posts);
 });
 
 // get city's posts
-app.get("/api/posts/:id", (req, res) => {
-  db.Cities.findOne({ _id: req.params.id }).exec( (err, foundCity) => {
-    if (err) {
-      console.log(`can't find city error: `, err);
-    }
-    console.log(`Found City ${foundCity}`);
-    db.Posts.find({ city: foundCity._id }, (err, foundPosts) => {
-      if (err) {
-        console.log(`can't find posts of city: `, err);
-      };
-      console.log(foundPosts);
-      res.json(foundPosts);
-    });
-  });
-});
+// [] TESTING MOVING TO POSTCONTROLLER
+// app.get("/api/posts/:id", (req, res) => {
+//   db.Cities.findOne({ _id: req.params.id }).exec( (err, foundCity) => {
+//     if (err) {
+//       console.log(`can't find city error: `, err);
+//     }
+//     console.log(`Found City ${foundCity}`);
+//     db.Posts.find({ city: foundCity._id }, (err, foundPosts) => {
+//       if (err) {
+//         console.log(`can't find posts of city: `, err);
+//       };
+//       console.log(foundPosts);
+//       res.json(foundPosts);
+//     });
+//   });
+// });
 
 
 app.post("/api/posts", (req, res) => {
