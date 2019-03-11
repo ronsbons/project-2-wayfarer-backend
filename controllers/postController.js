@@ -47,5 +47,18 @@ module.exports = {
         });
       });
     });
+  },
+
+  showAllPosts: (request, response) => {
+    db.Posts.find({})
+    .populate('user')
+    .populate('city')
+    .exec((error, posts) => {
+      if (error) {
+        console.log(`can't find all posts: ${error}`);
+      }
+      response.json(posts);
+      console.log(`all posts: ${posts}`);
+    });
   }
 };
