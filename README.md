@@ -1,6 +1,6 @@
 # App Name: Wayfarer
 
-Wayfarer is a platform designed with the travel community in mind. Through the use of this application, users share their posts or tips about their favorite locations around the world.
+Wayfarer is a platform designed with the travel community in mind. Through the use of this application, users share posts or tips about their favorite locations around the world.
 
 _March Team_
 San Francisco, CA
@@ -28,13 +28,13 @@ San Francisco, CA
 
 Landing Page
 
-- (User Log-In & Sign-Up) Custom Authentication
+- Authentication (User Log-In & Sign-Up)
 - Redirect to Dynamic URL
 
 Public Page
 
 - Public Page Dynamic Layout
-- User Profile with Edit Name and City Feature
+- User Profile with edit name and city Feature
 - User Feed
 
 Cities Page
@@ -58,7 +58,7 @@ Changes we would make to our project if we continued to work on it:
 
 ---
 
-##### Screenshot(s)
+##### Screenshot
 
 <img width="651" alt="bcrypt code highlight" src="https://user-images.githubusercontent.com/46200110/54101947-81dc8380-4383-11e9-911e-027a9443e074.png">
 
